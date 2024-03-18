@@ -3,8 +3,10 @@ import proveedoresRoutes from './routes/proveedoresRoutes.js'
 import clienteRoutes from './routes/clienteRouters.js'
 import productoRoutes from './routes/productoRouters.js'
 import ventasRoutes from './routes/ventasRouters.js'
+import cors from 'cors'
 
 const app = express()
+app.use(cors())
 
 app.use(express.json())  //para poder usa objetos json
 
