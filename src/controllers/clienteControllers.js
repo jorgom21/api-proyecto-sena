@@ -43,11 +43,11 @@ export const updateCliente =  async (req, res) => {
     
     try {
         const { id } = req.params;
-        const {id, identificacion, nombres, direccion, ciudad, telefono, correo } = req.body;
+        const {idcliente, identificacion, nombres, direccion, ciudad, telefono, correo } = req.body;
     
         const [cliente] = await condb.query(
             "UPDATE cliente SET identificacion = IFNULL(?, identificacion), nombres = IFNULL(?, nombres), direccion = IFNULL(?, direccion), ciudad = IFNULL(?, ciudad), telefono = IFNULL(?, telefono), correo = IFNULL(?, correo) WHERE idcliente = ?;",
-            [identificacion, nombres ,direccion, ciudad, telefono, correo, id]
+            [identificacion, nombres ,direccion, ciudad, telefono, correo, idcliente]
             );
         
         if (cliente.affectedRows === 0)
