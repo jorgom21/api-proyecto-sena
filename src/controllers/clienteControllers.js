@@ -53,7 +53,7 @@ export const updateCliente =  async (req, res) => {
         if (cliente.affectedRows === 0)
           return res.status(404).json({ message: "no encontrado" });
     
-        const [rows] = await condb.query("SELECT * FROM cliente WHERE idcliente = ?",[id]);
+        const [rows] = await condb.query("SELECT * FROM cliente WHERE idcliente = ?",[idcliente]);
 
         res.json(rows[0]);
     } catch (error) {

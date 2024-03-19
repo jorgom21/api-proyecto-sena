@@ -12,8 +12,8 @@ router.get('/clientes/:id', getCliente)
 
 router.post('/clientes', createCliente)
 
-router.put('/clientes/:id', updateCliente)
+router.put('/clientes', updateCliente)
 
-router.delete('/clientes/:id', deleteCliente)
+router.delete('/clientes', deleteCliente)
 
 export default router
