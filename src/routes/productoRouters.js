@@ -8,12 +8,12 @@ const router = Router()
 
 router.get('/productos', getallproductos )
 
-router.get('/productos/:id', getproducto)
+router.get('/productos', getproducto)
 
 router.post('/productos', createproducto)
 
-router.put('/productos/:id', updateproducto)
+router.put('/productos', updateproducto)
 
-router.delete('/productos/:id', deleteproducto)
+router.delete('/productos', deleteproducto)
 
 export default router

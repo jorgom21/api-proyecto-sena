@@ -8,7 +8,7 @@ const router = Router()
 
 router.get('/clientes', getallClientes )
 
-router.get('/clientes/:id', getCliente)
+router.get('/clientes', getCliente)
 
 router.post('/clientes', createCliente)
 

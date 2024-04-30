@@ -9,8 +9,8 @@ export const getallClientes = async(req, res) => {
 //funcion para obtener uno
 export const getCliente = async (req, res) => {
     try {
-      const { id } = req.params;
-      const [cliente] = await condb.query("SELECT * FROM cliente WHERE idcliente = ?", [id]);
+      const { idcliente } = req.body;
+      const [cliente] = await condb.query("SELECT * FROM cliente WHERE idcliente = ?", [idcliente]);
   
       if (cliente.length <= 0) {
         return res.status(404).json({ message: "No se encontro el cliente" });
@@ -65,8 +65,8 @@ export const updateCliente =  async (req, res) => {
 //funcion para eliminar
 export const deleteCliente = async (req, res) => {
     try {
-        const { id } = req.params;
-        const [rows] =  await condb.query("DELETE FROM cliente WHERE idcliente = ?", [id]);
+        const { idcliente } = req.body;
+        const [rows] =  await condb.query("DELETE FROM cliente WHERE idcliente = ?", [idcliente]);
 
         if (rows.affectedRows <= 0) {
             return res.status(404).json({ message: "cliente no existe" });

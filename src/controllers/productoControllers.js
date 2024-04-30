@@ -10,8 +10,8 @@ export const getallproductos = async(req, res) => {
 //funcion para obtener uno
 export const getproducto = async (req, res) => {
     try {
-      const { id } = req.params;
-      const [producto] = await condb.query("SELECT * FROM producto WHERE idproducto = ?", [id]);
+      const { idproducto } = req.body;
+      const [producto] = await condb.query("SELECT * FROM producto WHERE idproducto = ?", [idproducto]);
   
       if (producto.length <= 0) {
         return res.status(404).json({ message: "No se encontro el producto" });
@@ -44,11 +44,11 @@ export const updateproducto =  async (req, res) => {
     
     try {
         const { id } = req.params;
-        const {producto, existencia, v_unitario_venta, v_unitario_compra, idcategoria, idproveedores } = req.body;
+        const {idproducto, producto, existencia, v_unitario_venta, v_unitario_compra, idcategoria, idproveedores } = req.body;
     
         const [produc] = await condb.query(
             "UPDATE producto SET producto = IFNULL(?, producto), existencia = IFNULL(?, existencia), v_unitario_venta = IFNULL(?, v_unitario_venta), v_unitario_compra = IFNULL(?, v_unitario_compra), idcategoria = IFNULL(?, idcategoria), idproveedores = IFNULL(?, idproveedores) WHERE idproducto = ?;",
-            [producto, existencia, v_unitario_venta, v_unitario_compra, idcategoria, idproveedores, id]
+            [producto, existencia, v_unitario_venta, v_unitario_compra, idcategoria, idproveedores, idproducto]
             );
         
         if (produc.affectedRows === 0)
@@ -66,8 +66,8 @@ export const updateproducto =  async (req, res) => {
 //funcion para eliminar
 export const deleteproducto = async (req, res) => {
     try {
-        const { id } = req.params;
-        const [rows] =  await condb.query("DELETE FROM producto WHERE idproducto = ?", [id]);
+        const { idproducto } = req.body;
+        const [rows] =  await condb.query("DELETE FROM producto WHERE idproducto = ?", [idproducto]);
 
         if (rows.affectedRows <= 0) {
             return res.status(404).json({ message: "venta no existe" });

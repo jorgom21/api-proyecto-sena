@@ -9,9 +9,9 @@ export const getallproveedores = async(req, res) => {
 //funcion para obtener uno
 export const getproveedor = async (req, res) => {
     try {
-      const { id } = req.params;
+      const { idproveedores } = req.body;
       const [proveedor] = await condb.query("SELECT * FROM proveedores WHERE idproveedores = ?", [
-        id,
+        idproveedores,
       ]);
   
       if (proveedor.length <= 0) {
@@ -30,6 +30,7 @@ export const createproveedor = async(req, res) => {
     const [proveedores] = await condb.query('INSERT INTO proveedores(nitproveedor, nombres, telefono, email) VALUES (?, ?, ?, ?)',[nitproveedor, nombres, telefono, email])
     res.send({
         idproveedores: proveedores.insertId,
+        nitproveedor,
         nombres,
         telefono,
         email
@@ -42,17 +43,17 @@ export const updateproveedor =  async (req, res) => {
     
     try {
         const { id } = req.params;
-        const { nitproveedor, nombres, telefono, email } = req.body;
+        const {idproveedores, nitproveedor, nombres, telefono, email } = req.body;
     
         const [proveedor] = await condb.query(
             "UPDATE proveedores SET nitproveedor = IFNULL(?, nitproveedor), nombres = IFNULL(?, nombres), telefono = IFNULL(?, telefono), email =IFNULL(?, email) WHERE idproveedores = ?;",
-            [nitproveedor, nombres, telefono, email, id]
+            [nitproveedor, nombres, telefono, email, idproveedores]
             );
         
         if (proveedor.affectedRows === 0)
           return res.status(404).json({ message: "no encontrado" });
     
-        const [rows] = await condb.query("SELECT * FROM proveedores WHERE idproveedores = ?",[id,]);
+        const [rows] = await condb.query("SELECT * FROM proveedores WHERE idproveedores = ?",[idproveedores]);
 
         res.json(rows[0]);
     } catch (error) {
@@ -64,8 +65,8 @@ export const updateproveedor =  async (req, res) => {
 //funcion para eliminar
 export const deleteproveedor = async (req, res) => {
     try {
-        const { id } = req.params;
-        const [rows] =  await condb.query("DELETE FROM proveedores WHERE idproveedores = ?", [id]);
+        const { idproveedores } = req.body;
+        const [rows] =  await condb.query("DELETE FROM proveedores WHERE idproveedores = ?", [idproveedores]);
 
         if (rows.affectedRows <= 0) {
             return res.status(404).json({ message: "proveedor no encontrado" });

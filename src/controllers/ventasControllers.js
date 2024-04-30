@@ -9,9 +9,9 @@ export const getallventas = async(req, res) => {
 //funcion para obtener uno
 export const getventa = async (req, res) => {
     try {
-      const { id } = req.params;
+      const { idventas } = req.body;
       const [venta] = await condb.query("SELECT * FROM ventas WHERE idventas = ?", [
-        id,
+        idventas,
       ]);
   
       if (venta.length <= 0) {
@@ -44,16 +44,16 @@ export const updateventa =  async (req, res) => {
     
     try {
         const { id } = req.params;
-        const { fecha, hora, idcliente, idempresa, vendedor_idempleados } = req.body;
+        const {idventas, fecha, hora, idcliente, idempresa, vendedor_idempleados } = req.body;
     
         const [venta] = await condb.query(
-            "UPDATE ventas SET fecha = IFNULL(?, fecha), hora = IFNULL(?, hora), idcliente = IFNULL(?, idcliente), idempresa = IFNULL(?, idempresa), vendedor_idempleados = IFNULL(?, vendedor_idempleados) WHERE idventas = ?",[fecha, hora, idcliente, idempresa, vendedor_idempleados, id]
+            "UPDATE ventas SET fecha = IFNULL(?, fecha), hora = IFNULL(?, hora), idcliente = IFNULL(?, idcliente), idempresa = IFNULL(?, idempresa), vendedor_idempleados = IFNULL(?, vendedor_idempleados) WHERE idventas = ?",[fecha, hora, idcliente, idempresa, vendedor_idempleados, idventas]
             );
         
         if (venta.affectedRows === 0)
           return res.status(404).json({ message: "no encontrado" });
     
-        const [rows] = await condb.query("SELECT * FROM ventas WHERE idventas = ?",[id,]);
+        const [rows] = await condb.query("SELECT * FROM ventas WHERE idventas = ?",[idventas]);
 
         res.json(rows[0]);
     } catch (error) {
@@ -65,8 +65,8 @@ export const updateventa =  async (req, res) => {
 //funcion para eliminar
 export const deleteventa = async (req, res) => {
     try {
-        const { id } = req.params;
-        const [rows] =  await condb.query("DELETE FROM ventas WHERE idventas = ?", [id]);
+        const { idventas } = req.body;
+        const [rows] =  await condb.query("DELETE FROM ventas WHERE idventas = ?", [idventas]);
 
         if (rows.affectedRows <= 0) {
             return res.status(404).json({ message: "venta no existe" });
